@@ -1,0 +1,17 @@
+uamd=$HOME/Documents/workspaces/Aptana/uamd CD=. filter="*.py *.rst" {
+ setup.py
+ uamd=uamd {
+  __init__.py
+  cidr.py
+  device=device {
+   __init__.py
+   browser.py
+   mobile.py
+   smartphone.py
+  }
+ }
+ test=test {
+  __init__.py
+  detect.py
+ }
+}

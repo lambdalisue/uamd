@@ -1,0 +1,30 @@
+uamd documentation=$HOME/Documents/workspaces/Aptana/uamd/docs CD=. filter="*.rst" {
+ _build=_build {
+  doctrees=doctrees {
+   uamd=uamd {
+   }
+  }
+  html=html {
+   _sources=_sources {
+    uamd=uamd {
+    }
+   }
+   _static=_static {
+   }
+   uamd=uamd {
+   }
+  }
+ }
+ _static=_static {
+ }
+ _templates=_templates {
+ }
+ uamd=uamd {
+  index.rst
+ }
+ tutorial=tutorial{
+  index.rst
+  device.rst
+ }
+ index.rst
+}

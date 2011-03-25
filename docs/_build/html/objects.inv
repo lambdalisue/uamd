@@ -1,0 +1,8 @@
+# Sphinx inventory version 1
+# Project: uamd
+# Version: 0.1
+uamd.device.mobile mod tutorial/device.html
+uamd mod uamd/index.html
+uamd.spoof_check function uamd/index.html
+uamd.device.mobile.Mobile class tutorial/device.html
+uamd.detect function uamd/index.html

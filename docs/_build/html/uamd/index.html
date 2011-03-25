@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>uamd API Reference &mdash; uamd v0.1rc1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1rc1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="uamd v0.1rc1 documentation" href="../index.html" />
+    <link rel="prev" title="Device Reference" href="../tutorial/device.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/device.html" title="Device Reference"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">uamd v0.1rc1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="uamd-api-reference">
+<h1>uamd API Reference<a class="headerlink" href="#uamd-api-reference" title="Permalink to this headline">¶</a></h1>
+<p>Device detection library via HTTP_USER_AGENT</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><strong>uamd</strong> is library for detecting device via HTTP_USER_AGENT.</p>
+<p>Currently this library can detect the device listed below</p>
+<ul class="simple">
+<li>DoCoMo mobile phone</li>
+<li>KDDI mobile phone</li>
+<li>SoftBank mobile phone</li>
+<li>iPhone/iPod Touch/iPad</li>
+<li>Android</li>
+<li>Internet Explorer</li>
+<li>Google Chrome</li>
+<li>Firefox</li>
+<li>Opera</li>
+<li>Lunascape</li>
+</ul>
+<p>The device doesn&#8217;t listed above will treat as <tt class="xref docutils literal"><span class="pre">device.DummyDevice</span></tt>
+which will treated as device which support cookie and has no carrier (treated like as PC Browser)</p>
+</div>
+<div class="section" id="module-uamd">
+<h2>Methods<a class="headerlink" href="#module-uamd" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="uamd.detect">
+<tt class="descclassname">uamd.</tt><tt class="descname">detect</tt><big>(</big><em>meta</em>, <em>loader=&lt;uamd.cidr.DefaultLoader object at 0x8d9c58c&gt;</em><big>)</big><a class="headerlink" href="#uamd.detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect device via HTTP Headers and return <tt class="xref docutils literal"><span class="pre">cidr.Loader</span></tt> instance.
+When <tt class="docutils literal"><span class="pre">loader</span></tt> is not None, spoof check is executed via <tt class="docutils literal"><span class="pre">loader</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>meta</em> (dict) &#8211; the HTTP Headers dict</li>
+<li><em>loader</em> (<tt class="xref docutils literal"><span class="pre">cidr.Loader</span></tt> instance) &#8211; <tt class="xref docutils literal"><span class="pre">cidr.Loader</span></tt> for loading CIDR via carrier for spoof check.
+set it <tt class="xref docutils literal"><span class="pre">None</span></tt> to skip spoof check.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">detected device information as <tt class="xref docutils literal"><span class="pre">uamd.device.Device</span></tt> subclass instance</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref docutils literal"><span class="pre">cidr.device.Device</span></tt> subclass instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="uamd.spoof_check">
+<tt class="descclassname">uamd.</tt><tt class="descname">spoof_check</tt><big>(</big><em>device</em>, <em>meta</em>, <em>loader=&lt;uamd.cidr.DefaultLoader object at 0x8d9c58c&gt;</em><big>)</big><a class="headerlink" href="#uamd.spoof_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the device is spoofed via reported carrier&#8217;s CIDR.
+If the device accessed from out of range, then the device may be spoofed
+so the method will set <tt class="docutils literal"><span class="pre">dev.spoof</span> <span class="pre">=</span> <span class="pre">True</span></tt> and return the device.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>device</em> &#8211; the device for checking whether spoofed</li>
+<li><em>meta</em> (dict) &#8211; the HTTP Headers dict</li>
+<li><em>loader</em> (<tt class="xref docutils literal"><span class="pre">cidr.Loader</span></tt> instance) &#8211; <tt class="xref docutils literal"><span class="pre">cidr.Loader</span></tt> for loading CIDR via carrier for spoof check.
+set it <tt class="xref docutils literal"><span class="pre">None</span></tt> to skip spoof check.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">modified(or not modified) device</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref docutils literal"><span class="pre">cidr.device.Device</span></tt> subclass instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">uamd API Reference</a><ul>
+<li><a class="reference external" href="#introduction">Introduction</a></li>
+<li><a class="reference external" href="#module-uamd">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../tutorial/device.html"
+                                  title="previous chapter">Device Reference</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/uamd/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/device.html" title="Device Reference"
+             >previous</a> |</li>
+        <li><a href="../index.html">uamd v0.1rc1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Alisue.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

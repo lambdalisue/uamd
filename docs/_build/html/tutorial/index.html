@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting started with uamd &mdash; uamd v0.1rc1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1rc1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="uamd v0.1rc1 documentation" href="../index.html" />
+    <link rel="next" title="uamd API Reference" href="../uamd/index.html" />
+    <link rel="prev" title="Welcome to uamd" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../uamd/index.html" title="uamd API Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to uamd"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">uamd v0.1rc1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started-with-uamd">
+<h1>Getting started with uamd<a class="headerlink" href="#getting-started-with-uamd" title="Permalink to this headline">¶</a></h1>
+<p>Detecting the device accessed via HTTP_USER_AGENT is required to build
+web site for mobile phone (so you can change template, css, javascript or whatever).</p>
+<p>However even detecting the device is very important function, the mechanisms of it
+is not fun all :-p</p>
+<p>That&#8217;s why I create reusable detecting library. This library is mainly created for
+<a class="reference external" href="https://github.com/alisue/django-mfw/blob/master/mfw/core/cidr.py">django-mfw</a> so please check out it as well.</p>
+<p>This tutorial assumes that you are using Django but even if you are not familia with it
+you may able to understand what&#8217;s going on I think.</p>
+<div class="section" id="basic-usage">
+<h2>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>If you have HTTP Headers dictionary in <tt class="docutils literal"><span class="pre">request.META</span></tt>, you can detect
+the device with the code below:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">request</span><span class="o">.</span><span class="n">META</span>
+<span class="go">{&#39;HTTP_USER_AGENT&#39;: u&quot;DoCoMo/1.0/F504i/c30/TD&quot;, ...}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">uamd</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">device</span>
+<span class="go">DoCoMo F504i</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="advanced-usage">
+<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-device-information">
+<h3>Using device information<a class="headerlink" href="#using-device-information" title="Permalink to this headline">¶</a></h3>
+<p>the device <a title="uamd.detect" class="reference external" href="../uamd/index.html#uamd.detect"><tt class="xref docutils literal"><span class="pre">uamd.detect()</span></tt></a> return has properties listed below.</p>
+<dl class="docutils">
+<dt>support_cookie</dt>
+<dd>if the device can handle cookie. this value doesn&#8217;t reflect actual state
+so even if user turned off cookie, it may return <tt class="xref docutils literal"><span class="pre">True</span></tt> for the device
+which usually support cookie.</dd>
+<dt>carrier</dt>
+<dd>the carrier name detected. supported carrier is &#8216;docomo&#8217;, &#8216;kddi&#8217; and &#8216;softbank&#8217;.
+the device which doesn&#8217;t have carrier will return <tt class="xref docutils literal"><span class="pre">None</span></tt></dd>
+<dt>uid</dt>
+<dd>the carrier&#8217;s UID for the connection. make sure the <tt class="docutils literal"><span class="pre">spoof</span></tt> is not set to <tt class="xref docutils literal"><span class="pre">True</span></tt>
+see <a class="reference internal" href="#what-is-the-spoof"><em>What is the spoof</em></a> for more detail</dd>
+<dt>spoof</dt>
+<dd>return <tt class="xref docutils literal"><span class="pre">True</span></tt> if the device may spoofed. see <a class="reference internal" href="#what-is-the-spoof"><em>What is the spoof</em></a> for more detail</dd>
+<dt>version</dt>
+<dd>if the device has version.</dd>
+<dt>model</dt>
+<dd>if the device has model</dd>
+</dl>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p>for convinience, device instance doesn&#8217;t raise AttributeError even if unknown attribute is called.
+Insted of AttributeError, device will return <tt class="xref docutils literal"><span class="pre">None</span></tt>. That&#8217;s why the code below doesn&#8217;t work as expect:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="c"># Doesn&#39;t work !!!</span>
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="s">&#39;foobar&#39;</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;Worked&quot;</span>
+<span class="c"># Work correctly</span>
+<span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">foobar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Worked&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-custom-cidr-loader">
+<h3>Using custom CIDR loader<a class="headerlink" href="#using-custom-cidr-loader" title="Permalink to this headline">¶</a></h3>
+<p>Default CIDR loader fetch CIDR data from each carrier&#8217;s web site and stored the data
+in the instance as cache. However the way of doing is not efficient when the instance
+is released a lot (like Django)</p>
+<p>So I recommended to create your own CIDR loader for your application. The code below
+is Databased CIDR loader for Django from <a class="reference external" href="https://github.com/alisue/django-mfw/blob/master/mfw/core/cidr.py">django-mfw</a>
+and the full source code is found on <a class="reference external" href="https://github.com/alisue/django-mfw/blob/master/mfw/core/cidr.py">https://github.com/alisue/django-mfw/blob/master/mfw/core/cidr.py</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">DatabaseLoader</span><span class="p">(</span><span class="n">uamd</span><span class="o">.</span><span class="n">cidr</span><span class="o">.</span><span class="n">Loader</span><span class="p">):</span>
+    <span class="sd">u&quot;&quot;&quot;Loading cidr via carrier from Django&#39;s Database and Internet&quot;&quot;&quot;</span>
+    <span class="n">_EXPIRE</span> <span class="o">=</span> <span class="n">relativedelta</span><span class="p">(</span><span class="n">weeks</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">_DELIMITER</span> <span class="o">=</span> <span class="s">u&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_str_to_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_DELIMITER</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">IP</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">values</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_data_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_DELIMITER</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carrier</span><span class="p">):</span>
+        <span class="n">expire</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_EXPIRE</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_data_cache&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cache</span> <span class="ow">and</span> <span class="n">cache</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">expire</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cidr</span> <span class="o">=</span> <span class="n">CIDRCache</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">updated_at__gt</span><span class="o">=</span><span class="n">expire</span><span class="p">,</span> <span class="n">carrier</span><span class="o">=</span><span class="n">carrier</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">CIDRCache</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="n">cidr</span> <span class="o">=</span> <span class="n">CIDRCache</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">carrier</span><span class="o">=</span><span class="n">carrier</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">cidr</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_to_str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">carrier</span><span class="p">))</span>
+            <span class="n">cidr</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str_to_data</span><span class="p">(</span><span class="n">cidr</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">updated_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_data_cache&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">updated_at</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="what-is-the-spoof">
+<span id="id1"></span><h3>What is the spoof<a class="headerlink" href="#what-is-the-spoof" title="Permalink to this headline">¶</a></h3>
+<p>A lot of web framework use cookie for storing session_id or whatever.
+Using cookie is the best way in security aspect. But some of device
+cannot handle cookie and they cannot store session_id. That&#8217;s why some
+web framework or web site use carrier&#8217;s UID (User ID) for storing session_id.</p>
+<p>However UID commonly send from carrier server as HTTP X Header and you know
+HTTP X Headers can modify with Firefox plugin or whatever if you are accessing
+the web site with Computer.</p>
+<p>So most of web framework or web site check IP Address and make sure the IP Address
+is in CIDR of mobile phone to ignore access to mobile web site from Computer.</p>
+<p>Is it secure? Recently some mobile device has thethering function and if you connect
+the site via thethering. Who know that you are accessing with Computer.</p>
+<p>To reduce this security risk, uamd check IP Address and make sure the IP Address
+is in <strong>carrier&#8217;s CIDR</strong> insted. What the difference?</p>
+<p>Checking carrier&#8217;s CIDR or CIDR of all mobile carrier makes big difference. Most
+carrier server <strong>rewrite</strong> HTTP X Headers for handling own carrier&#8217;s UID. So if
+you are accessing with in DoCoMo&#8217;s CIDR, the HTTP_X_DCMGUID(DoCoMo&#8217;s HTTP Headers for handling UID)
+header is rewrited by carrier and user never be able to fake it. But if you are
+accessing with in KDDI&#8217;s CIDR, the carrier doesn&#8217;t know about HTTP_X_DCMGUID so the value
+can be faked by user.</p>
+<p>That&#8217;s why uamd set <tt class="docutils literal"><span class="pre">device.spoof</span> <span class="pre">=</span> <span class="pre">True</span></tt> when the device carrier detected via HTTP_USER_AGENT
+doesn&#8217;t connected from in CIDR of the carrier detected. So check this value before
+you use <tt class="docutils literal"><span class="pre">device.uid</span></tt> for saving session_id or whatever.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Getting started with uamd</a><ul>
+<li><a class="reference external" href="#basic-usage">Basic usage</a></li>
+<li><a class="reference external" href="#advanced-usage">Advanced usage</a><ul>
+<li><a class="reference external" href="#using-device-information">Using device information</a></li>
+<li><a class="reference external" href="#using-custom-cidr-loader">Using custom CIDR loader</a></li>
+<li><a class="reference external" href="#what-is-the-spoof">What is the spoof</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../index.html"
+                                  title="previous chapter">Welcome to uamd</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../uamd/index.html"
+                                  title="next chapter">uamd API Reference</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/tutorial/index.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../uamd/index.html" title="uamd API Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to uamd"
+             >previous</a> |</li>
+        <li><a href="../index.html">uamd v0.1rc1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Alisue.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>
