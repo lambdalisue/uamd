@@ -6,7 +6,7 @@
 #
 from setuptools import setup, find_packages
 
-version = "0.1rc1"
+version = "0.1rc2"
 
 def read(filename):
     import os.path
@@ -25,9 +25,9 @@ setup(
         ],
         keywords = "mobile detect HTTP_USER_AGENT user_agent",
         author = "Alisue",
-        author_email = "alisue@hashnote.net",
-        url=r"https://github.com/alisue/uamd",
-        download_url = r"https://github.com/alisue/uamd/tarball/master",
+        author_email = "lambdalisue@hashnote.net",
+        url=r"https://github.com/lambdalisue/uamd",
+        download_url = r"https://github.com/lambdalisue/uamd/tarball/master",
         license = 'BSD',
         packages = find_packages(),
         #include_package_data = True,
