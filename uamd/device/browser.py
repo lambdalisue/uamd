@@ -87,7 +87,8 @@ class Opera(Browser):
     # Class method
     def fastcheck(cls, meta):
         ua = meta.get('HTTP_USER_AGENT', None)
-        return 'Opera' in ua
+        return 'Opera' in ua if ua else False
+    
     fastcheck = classmethod(fastcheck)
     def factory(cls, meta):
         ua = meta.get('HTTP_USER_AGENT', None)
