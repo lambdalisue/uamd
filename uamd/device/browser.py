@@ -24,7 +24,7 @@ class InternetExplorer(Browser):
     
     # Class method
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         version, os = m.groups()
         return cls(version, os)
@@ -36,7 +36,7 @@ class GoogleChrome(Browser):
     
     # Class method[^\)]*\) AppleWebKit/[\d\.]* (KHTML, like Gecko)
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         os, version = m.groups()
         return cls(version, os)
@@ -48,7 +48,7 @@ class Lunascape(Browser):
     
     # Class method
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         os, version = m.groups()
         return cls(version, os)
@@ -60,7 +60,7 @@ class Firefox(Browser):
     
     # Class method
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         os, version = m.groups()
         return cls(version, os)
@@ -72,7 +72,7 @@ class Safari(Browser):
     
     # Class method
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         os, version = m.groups()
         return cls(version, os)
@@ -86,11 +86,11 @@ class Opera(Browser):
     
     # Class method
     def fastcheck(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         return 'Opera' in ua
     fastcheck = classmethod(fastcheck)
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         if cls._pattern_short.match(ua):
             m = cls._pattern_s.match(ua)
             version, os = m.groups()

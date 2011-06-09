@@ -66,7 +66,7 @@ class DoCoMo(Mobile):
     _parse_foma = classmethod(_parse_foma)
     def factory(cls, meta):
         uid = meta.get('HTTP_X_DCMGUID', None)
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         if cls._pattern_mova.match(ua):
             name, cache = cls._parse_mova(ua)
             type = u"MOVA"
@@ -94,7 +94,7 @@ class KDDI(Mobile):
     # Class method
     def factory(cls, meta):
         uid = meta.get('HTTP_X_UP_SUBNO', None)
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         name = m.group('name')
         support_cookie = True
@@ -117,7 +117,7 @@ class SoftBank(Mobile):
     # Class method
     def factory(cls, meta):
         uid = meta.get('HTTP_X_JPHONE_UID', None)
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         type, version, name = m.groups()
         if type == 'J-PHONE':

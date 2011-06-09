@@ -7,6 +7,7 @@
 from IPy import IP
 import cidr
 import device
+import warnings
 
 def detect(meta, loader=cidr.default_loader):
     u"""
@@ -51,5 +52,9 @@ def spoof_check(device, meta, loader=cidr.default_loader):
     if not loader:
         raise AttributeError(u"``loader`` is required to get CIDR for carrier")
     cidr = loader.get(device.carrier)
-    device.spoof = not IP(meta['REMOTE_ADDR']) in cidr
+    REMOTE_ADDR = meta.get('REMOTE_ADDR', None)
+    if not REMOTE_ADDR:
+        warnings.warn("REMOTE_ADDR is not available. could not determine spoof.")
+    else:
+        device.spoof = not IP(REMOTE_ADDR) in cidr
     return device

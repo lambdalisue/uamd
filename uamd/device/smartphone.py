@@ -42,7 +42,7 @@ class iPhone(SmartPhone):
     
     # Class method
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         version = m.group('version') or '1_0'
         version = version.replace('_', '.')
@@ -80,7 +80,7 @@ class Android(SmartPhone):
     
     # Class method
     def factory(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
+        ua = meta.get('HTTP_USER_AGENT', None)
         m = cls._pattern.match(ua)
         version = m.group('version')
         language = m.group('language')
