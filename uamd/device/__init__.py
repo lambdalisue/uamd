@@ -26,8 +26,8 @@ class Device(object):
     
     # Class method
     def fastcheck(cls, meta):
-        ua = meta['HTTP_USER_AGENT']
-        return cls._pattern.match(ua)
+        ua = meta.get('HTTP_USER_AGENT', None)
+        return cls._pattern.match(ua) if ua else False
     fastcheck = classmethod(fastcheck)
 
 class DummyDevice(Device):
