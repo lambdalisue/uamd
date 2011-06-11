@@ -6,7 +6,7 @@
 #
 from setuptools import setup, find_packages
 
-version = "0.1rc2"
+version = "0.1rc3"
 
 def read(filename):
     import os.path
@@ -30,7 +30,7 @@ setup(
         download_url = r"https://github.com/lambdalisue/uamd/tarball/master",
         license = 'BSD',
         packages = find_packages(),
-        #include_package_data = True,
+        include_package_data = True,
         zip_safe = True,
         install_requires=['setuptools', 'IPy', 'BeautifulSoup'],
 )

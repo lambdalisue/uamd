@@ -1,14 +1,17 @@
-Introduction
-=================================================
-uamd (User Agent Mobile Detect) is for detecting japanese mobile phone
+``uamd`` (User Agent Mobile Detect) is for detecting japanese mobile phone
 from HTTP_USER_AGENT and return device information include UID from HTTP Header
 and spoof check by CIDR of each carrier
 
 
 Install
 =================================================
+::
+    
+    sudo pip install uamd
 
-	sudo pip install -e git://github.com/alisue/uamd.git#egg=uamd
+or::
+
+	sudo pip install git+git://github.com/lambdalisue/uamd.git#egg=uamd
 
 
 Required (Automatically installed)
@@ -19,6 +22,7 @@ Required (Automatically installed)
 
 How to use
 =================================================
+::
 
 	>>> META = {
 	>>> 	'HTTP_USER_AGENT': u"J-PHONE/2.0/J-SH02",
