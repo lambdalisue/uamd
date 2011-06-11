@@ -16,7 +16,7 @@ setup(
         name="uamd",
         version=version,
         description = "User Agent Mobile Detect",
-        long_description=read('README.mkd'),
+        long_description=read('README.rst'),
         classifiers = [
             'Intended Audience :: Developers',
             'License :: OSI Approved :: BSD License',
