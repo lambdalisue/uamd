@@ -92,7 +92,7 @@ class Opera(Browser):
     fastcheck = classmethod(fastcheck)
     def factory(cls, meta):
         ua = meta.get('HTTP_USER_AGENT', None)
-        if cls._pattern_short.match(ua):
+        if cls._pattern_s.match(ua):
             m = cls._pattern_s.match(ua)
             version, os = m.groups()
         elif cls._pattern_l.match(ua):
